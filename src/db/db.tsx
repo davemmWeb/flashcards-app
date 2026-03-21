@@ -21,4 +21,19 @@ export class MyDatabase extends Dexie {
   }
 }
 
+export const calculateNextReview = (level: number): Date => {
+  const now = new Date();
+  
+  // Lógica simple de días:
+  // 1 (Difícil) -> Mañana
+  // 2 (Bien)    -> En 3 días
+  // 3 (Fácil)   -> En 7 días
+  const daysToAdd = level === 1 ? 1 : level === 2 ? 3 : 7;
+  
+  // Sumamos los días a la fecha actual
+  now.setDate(now.getDate() + daysToAdd);
+  
+  return now;
+};
+
 export const db = new MyDatabase();
