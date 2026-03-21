@@ -16,5 +16,25 @@ export function useCards() {
     await db.cards.add(newCard);
   };
 
-  return { cards, addCard };
+  const updateCardReview = async (id: number, nextDate: Date) => {
+    await db.cards.update(id, { nextReview: nextDate });
+  };
+
+  const resetAllCards = async () => {
+    // Obtenemos todas las tarjetas actuales
+    const allCards = await db.cards.toArray();
+    
+    // Usamos una promesa masiva para actualizar todas a "hoy"
+    const promises = allCards.map(card => 
+      db.cards.update(card.id!, { 
+        nextReview: new Date(),
+        interval: 0,
+        difficulty: 1 
+      })
+    );
+    
+    await Promise.all(promises);
+  };
+
+  return { cards, addCard, updateCardReview, resetAllCards };
 }
