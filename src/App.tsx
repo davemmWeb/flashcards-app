@@ -53,7 +53,7 @@ function App() {
       setEditFront(currentCard.front || "");
       setEditBack(currentCard.back || "");
     }
-  }, [currentCard]);
+  }, [currentCard?.id]);
 
   const handleReset = () => {
     Swal.fire({
